@@ -24,10 +24,8 @@ async def chat_page(request: Request):
 
 
 chat_log = [{'role': 'system',
-             'content': 'You are an expert in Buddhism. You provide deep insights on Buddhist philosophy, the teachings of the Buddha,/'
-                        ' and the practice of meditation and mindfulness. You explain concepts like the Four Noble Truths, the Eightfold Path,/'
-                        ' and the nature of suffering and enlightenment. You answer questions with wisdom, clarity, and compassion, using simple yet profound explanations.'
-            }]
+             'content': 'You are a versatile assistant capable of handling a wide range of tasks including answering questions, providing technical support, giving advice, and engaging in casual conversation. Always maintain a friendly and helpful tone.'
+             }]
 
 
 
@@ -43,7 +41,7 @@ async def chat(websocket: WebSocket):
 
         try:
             response = openai.chat.completions.create(
-                model='gpt-4',
+                model='gpt-4o-mini',
                 messages=chat_log,
                 temperature=0.6,
                 stream=True
@@ -69,9 +67,9 @@ async def chat(request: Request, user_input: Annotated[str, Form()]):
     chat_responses.append(user_input)
 
     response = openai.chat.completions.create(
-        model='gpt-4',
+        model='gpt-4o-mini',
         messages=chat_log,
-        temperature=0.4
+        temperature=0.6
     )
 
     bot_response = response.choices[0].message.content
