@@ -1,4 +1,4 @@
-```markdown
+
 # AI Chatbot Application
 
 Welcome to the AI Chatbot Application repository! This project demonstrates the creation of a production-ready chatbot application leveraging state-of-the-art AI technologies like GPT-4, DALL-E, FastAPI, OpenAI API, Python, and more.
@@ -20,14 +20,11 @@ This project is designed to build a conversational AI chatbot that uses natural 
 - **Deployment**: Render, PyCharm
 - **WebSocket**: For real-time message exchange
 - **Frontend**: HTML, CSS, and JavaScript
-
-## Installation
-
-1. **Clone the repository**  
-   ```bash
-   git clone https://github.com/yourusername/ai-chatbot.git
-   cd ai-chatbot
-   ```
+  
+1.**clone the repository**
+  ```bash
+  https://github.com/ashutosh4m/full-stack-chatbot-final-.git
+  ```
 
 2. **Create a virtual environment**  
    ```bash
