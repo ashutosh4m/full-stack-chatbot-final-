@@ -32,7 +32,7 @@ This project is designed to build a conversational AI chatbot that uses natural 
    ```
    To activate the virtual environment:
    ```bash
-   env\Scripts\activate
+   chatenv\Scripts\activate
    ```
 
 3. **Install the dependencies**  
