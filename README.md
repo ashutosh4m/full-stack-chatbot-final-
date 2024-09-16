@@ -1,4 +1,4 @@
-![Alt text](assets\WhatsApp Image 2024-09-16 at 20.06.56_36383657.jpg)
+![Alt text](assets/WhatsApp%20Image%202024-09-16%20at%2020.06.56_36383657.jpg)
 
 
 
