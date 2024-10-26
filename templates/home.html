@@ -51,21 +51,29 @@
   ws.onmessage = function(event) {
     var message = event.data.trim();
 
+    // Check if it's a continuation of the AI's last message or a new one
     if (lastUserMessageDiv && !isNewUserInput) {
-        lastUserMessageDiv.textContent += message; // Directly concatenate fragments
+        var shouldAddSpace = true;
+        var noPrependSpaceChars = [',', '.', '!', '?', ';', ':', "'"];
+
+        if (noPrependSpaceChars.includes(message.charAt(0))) {
+            shouldAddSpace = false;
+        }
+
+        lastUserMessageDiv.textContent += (shouldAddSpace ? " " : "") + message;
     } else {
+        // It's either a new user input or the first chunk of AI response for the latest input
         var messageDiv = document.createElement("div");
         messageDiv.className = "chat-message ai-response";
         messageDiv.textContent = message;
         chatHistory.appendChild(messageDiv);
-
         lastUserMessageDiv = messageDiv;
         isNewUserInput = false;
     }
 
+    // Auto-scroll to the latest message
     chatHistory.scrollTop = chatHistory.scrollHeight;
 };
-
 
 sendButton.onclick = function() {
     var message = userInput.value.trim();
