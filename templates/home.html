@@ -1,78 +1,43 @@
 {% include 'layout.html' %}
 
 <div class="container mt-5">
-  <h3>
-    Add input to chat with personal chatbot
-  </h3>
+  <h3>Add input to chat with personal chatbot</h3>
 
-  <div>
-    <div class="card text-center mt-3">
-      <div class="card-header">
-        Chat History:
+  <!-- Chat History Section -->
+  <div class="card text-center mt-3">
+    <div class="card-header">Chat History:</div>
+    <div class="card-body chat-history" id="chatHistory">
+      <!-- Messages will populate here -->
+      {% for response in chat_responses %}
+      <div class="{{ 'chat-message user-input' if loop.index0 is even else 'chat-message ai-response' }}">
+        {{ response }}
       </div>
-      <div class="card-body chat-history" id="chatHistory">
-        <!-- auto populate here -->
-        {% for response in chat_responses %}
-
-        <div class="{{ 'chat-message user-input' if loop.index0 is even else 'chat-message ai-response' }}">
-          {{ response }}
-        </div>
-        {% endfor %}
-      </div>
+      {% endfor %}
     </div>
   </div>
 
-  <div class="container" id="footer">
-    <div class="input-group mb-3">
-      <input class="form-control" placeholder="Add input here" id="userInput">
-      <button class="btn btn-outline-primary" type="button" id="sendButton">Send</button>
-    </div>
+  <!-- Input Section -->
+  <div class="input-group mb-3" id="footer">
+    <input class="form-control" placeholder="Add input here" id="userInput">
+    <button class="btn btn-outline-primary" type="button" id="sendButton">Send</button>
   </div>
-
 </div>
+
 
 <script>
 
-  var websocketString = '';
-  if (window.location.hostname === '127.0.0.1') {
-    websocketString = "ws://localhost:8000/ws";
-  } else {
-    websocketString=`wss://${window.location.hostname}/ws`
-  }
-
   var ws = new WebSocket(websocketString);
+var chatHistory = document.getElementById("chatHistory");
 
-  var sendButton = document.getElementById("sendButton");
-  var userInput = document.getElementById("userInput");
-  var chatHistory = document.getElementById("chatHistory");
-  var lastUserMessageDiv = null; // Keep track of the last user message div
-  var isNewUserInput = true; // Flag to track when a new user input happens
-
-  ws.onmessage = function(event) {
+ws.onmessage = function(event) {
     var message = event.data.trim();
 
-    // Check if it's a continuation of the AI's last message or a new one
-    if (lastUserMessageDiv && !isNewUserInput) {
-        var shouldAddSpace = true;
-        var noPrependSpaceChars = [',', '.', '!', '?', ';', ':', "'"];
+    var messageDiv = document.createElement("div");
+    messageDiv.className = "chat-message ai-response";
+    messageDiv.textContent = message;
+    chatHistory.appendChild(messageDiv);
 
-        if (noPrependSpaceChars.includes(message.charAt(0))) {
-            shouldAddSpace = false;
-        }
-
-        lastUserMessageDiv.textContent += (shouldAddSpace ? " " : "") + message;
-    } else {
-        // It's either a new user input or the first chunk of AI response for the latest input
-        var messageDiv = document.createElement("div");
-        messageDiv.className = "chat-message ai-response";
-        messageDiv.textContent = message;
-        chatHistory.appendChild(messageDiv);
-        lastUserMessageDiv = messageDiv;
-        isNewUserInput = false;
-    }
-
-    // Auto-scroll to the latest message
-    chatHistory.scrollTop = chatHistory.scrollHeight;
+    chatHistory.scrollTop = chatHistory.scrollHeight;  // Auto-scroll to the latest message
 };
 
 sendButton.onclick = function() {
@@ -83,13 +48,12 @@ sendButton.onclick = function() {
         userInputDiv.textContent = message;
         chatHistory.appendChild(userInputDiv);
 
-        chatHistory.scrollTop = chatHistory.scrollHeight; // Auto-scroll after user sends message
+        chatHistory.scrollTop = chatHistory.scrollHeight;  // Auto-scroll after user sends message
 
         ws.send(message);
-        userInput.value = "";
-        isNewUserInput = true;
-        lastUserMessageDiv = null;
+        userInput.value = "";  // Clear input field
     }
 };
+
 
 </script>

@@ -11,17 +11,14 @@
 
         <style>
             .chat-history {
-            text-align: left;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            padding-bottom: 80px; /* Space above footer to avoid overlap */
-        }
+             max-height: 70vh;  /* Allow space for input */
+             overflow-y: auto;
+             margin-bottom: 1rem;
+           }
 
         .chat-message {
-            width: fit-content;
             word-wrap: break-word;
+            white-space: pre-wrap;
         }
 
         .chat-message.user-input {
@@ -41,12 +38,11 @@
         }
 
         #footer {
-            position: fixed;
-            bottom: 3%;
-            width: 95%;
-            margin-left: 2.5%; /* Centered horizontally */
-            padding-bottom: 5px; /* Additional padding to avoid overlap */
-            background: white;
+          position: fixed;
+          bottom: 10px;
+          width: 95%;
+          max-width: 600px;
+          z-index: 1000;
         }
     </style>
 
